@@ -33,7 +33,7 @@ export default function NavBar() {
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
   return (
-      <header className='relative flex justify-between items-center xl:w-[90%] w-[95%] max-w-full mx-auto h-full'>
+      <header className='flex justify-between items-center xl:w-[90%] w-[95%] max-w-full mx-auto h-full mb-5'>
           <Link href={`/`}>
               <Logo />
           </Link>

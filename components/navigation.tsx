@@ -31,7 +31,7 @@ const itemIds = [0, 1, 2, 3, 4];
 
 
 const Navigation = () => (
-  <motion.ul variants={variants} className="absolute top-[110px] left-0 w-full bg-background flex flex-col gap-y-10 text-center border border-foreground min-h-[90vh]">
+  <motion.ul variants={variants} className="absolute top-[108px] left-0 w-full bg-background flex flex-col items-stretch justify-center gap-y-10 text-center border border-foreground min-h-[75vh] rounded-2xl z-50">
     {itemIds.map(i => (
         
         <motion.li

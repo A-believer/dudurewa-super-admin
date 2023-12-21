@@ -72,6 +72,9 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        "onboardingOne": "url('/public/pngs/shawarma-onboarding-1.jpg')"
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],
