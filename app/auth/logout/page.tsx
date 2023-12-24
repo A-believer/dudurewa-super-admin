@@ -1,7 +1,8 @@
+import Container from '@/components/container'
 import React from 'react'
 
 export default function Logout() {
   return (
-    <div>Logout</div>
+    <Container className=''>Logout</Container>
   )
 }

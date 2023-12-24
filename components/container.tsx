@@ -10,7 +10,7 @@ export default function Container({
   className: string
 }) {
     return (
-      <main className='max-w-[1520px] mx-auto w-full relative selection:text-orange selection:bg-foreground'>
+      <main className='relative max-w-[1520px] mx-auto w-full selection:text-orange selection:bg-foreground'>
         <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -18,7 +18,7 @@ export default function Container({
             disableTransitionOnChange
             >
                 <NavBar/>
-          <section className={`xl:w-[90%] w-[95%] max-w-full mx-auto xl:min-h-[55vh] md:min-h-[80vh] min-h-[75vh] ${className}`}>
+          <section className={`xl:w-[90%] w-[95%] max-w-full mx-auto xl:min-h-[55vh] md:min-h-[80vh] min-h-[75vh] pb-10 ${className}`}>
                
           {children}
           

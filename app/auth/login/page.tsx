@@ -1,7 +1,8 @@
 import React from 'react'
+import Form from './form'
 
 export default function Login() {
   return (
-    <div>Login</div>
+    <Form/>
   )
 }

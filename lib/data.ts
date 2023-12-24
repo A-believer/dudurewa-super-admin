@@ -35,7 +35,7 @@ export const onboardingCardData: OnboardingProp[] = [
     {
     id: 4,
     tag: "#004",
-    info: "Generate receipts and sticky notes",
+    info: "Generate receipts and customized sticky notes",
     description: "You can now send automatically generated reciepts and customized sticky notes to your customers for each order. A small hand printer is needed",
     imageSrc: shawarmaOnboarding4
     },
