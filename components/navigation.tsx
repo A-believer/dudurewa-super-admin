@@ -51,19 +51,20 @@ const Navigation = ({ toggle }: {toggle: () => void}) => {
     try {
       await logOut()
      toggle
-      router.push(`auth/login`)
+      router.push(`/auth/login`)
     } catch (error: any) {
       alert(error.message)
     }
   }
     
     return(
-  <motion.ul variants={variants} className="absolute top-[108px] left-0 w-full bg-background flex flex-col items-stretch justify-center gap-y-10 text-center border border-foreground min-h-[75vh] rounded-2xl z-40 text-orange py-7">
+  <motion.ul variants={variants} className="absolute top-[108px] left-0 w-full bg-background flex flex-col items-stretch justify-center gap-y-10 text-center border border-foreground min-h-[75vh] rounded-2xl z-40 text-orange py-7 overflow-scroll">
     {navMenuItems.map((item) => (
         
       <motion.li
         className={`border-b-2 border-foreground py-2 px-4 mx-10 text-lg rounded-b-2xl hover:border-background hover:bg-orange hover:text-background ${routerLink === item.link && "bg-orange text-background border-background"}`}
-            key={item.id}
+        key={item.id}
+            onClick={toggle}
       variants={itemVariants}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
@@ -89,7 +90,8 @@ const Navigation = ({ toggle }: {toggle: () => void}) => {
     {!user &&
           <motion.li variants={itemVariants}
           whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }} className="">
+            whileTap={{ scale: 0.95 }} className="w-fit mx-auto">
+            <Link href={`/auth/login`} className="w-full px-5 text-foreground border-4 border-orange hover:bg-orange hover:text-background hover:scale-105 transition-all duration-500 rounded-md">Login</Link>
         </motion.li>}
   </motion.ul>)
 };

@@ -18,7 +18,7 @@ export default function NavBarDesktop() {
     e.preventDefault()
     try {
       await logOut()
-      router.push(`auth/login`)
+      router.push(`/auth/login`)
     } catch (error: any) {
       alert(error.message)
     }
@@ -47,11 +47,7 @@ export default function NavBarDesktop() {
                         onClick={handleLogOut}>
                         <Logout/>Logout
             </Button>}
-        
-    {!user &&
-                  <Button className="">
-                      
-                  </Button>}
+ 
               
                <h2 className='w-full mx-auto text-center '>Made with 💜 by <br />  <Link target='_blank' href={`https://davidabolade-portfolio.vercel.app/`} className='text-orange'>`<span className='underline underline-offset-4'>Nimi</span></Link></h2>
           </div>
