@@ -17,3 +17,10 @@ export const loginFormSchema = yup
     password: yup.string().min(6).required(),
   })
   .required()
+
+  export const todoFormSchema = yup
+  .object({
+    title: yup.string().required(),
+    description: yup.string().required(),
+  })
+  .required()

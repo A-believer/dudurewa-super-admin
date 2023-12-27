@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { Familjen_Grotesk } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/lib/context/AuthContext'
-
+import {Toaster} from "react-hot-toast"
+ 
 
 const inter = Familjen_Grotesk({
   subsets: ['latin'],
@@ -25,6 +26,7 @@ export default function RootLayout({
       <html lang="en">
       <body className={inter.className}>
           {children}
+          <Toaster/>
       </body>
     </html>
     </AuthProvider>

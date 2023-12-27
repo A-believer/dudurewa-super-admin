@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import {
@@ -7,7 +8,10 @@ import {
   signOut,
   User
 } from 'firebase/auth';
-import { auth } from "../firebase-config"
+import { auth, db } from "../firebase-config"
+import { v4 as uuidv4 } from 'uuid';
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import toast from 'react-hot-toast';
 interface AuthContextProps {
   children: ReactNode;
 }
@@ -16,15 +20,25 @@ interface AuthProviderProps {
    user: User | null;
     signUp: (email: string, password: string, userName: string) => Promise<void>
   logIn: (email: string, password: string) => Promise<void> ;
-    logOut: () => Promise<void> ;
+  logOut: () => Promise<void>;
+  todo: string[];
+  addTodoHandler: (title:string, description: string) => Promise<void>
 }
 
+interface TodoProps {
+  id: string
+  title: string
+  status: boolean
+  description: string
+}
 const AuthContext = createContext<AuthProviderProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
    const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
-
+  const [loadingTodo, setLoadingTodo] = useState<boolean>(true)
+  const [todo, setTodo] =useState<string[]>([])
+      const todoRef = collection(db, "Todos")
     const signUp = async (email: string, password: string, userName: string) => {
     try {
        await createUserWithEmailAndPassword(auth, email, password);
@@ -50,6 +64,40 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
     }
   }
 
+  const addTodoHandler = async(title:string, description: string) => {
+    try {
+      await setDoc(doc(db, "Todos", uuidv4()), {
+        title: title,
+        description: description,
+        status: false
+      });
+    } catch (error: any) {
+      console.log({error})
+    }
+  }
+
+  const getTodoList = async () => {
+    try { 
+      await getDocs(todoRef)
+        .then((data: any) => {
+          const allTodo = data.docs.map((doc: any) => ({
+            ...doc.data(),
+            id: doc.id
+          }))
+          setTodo(allTodo)
+        })
+          setLoadingTodo(false)
+      
+      console.log(todo)
+    } catch (error: any) {
+      toast.error('failed to fetch todos!!')
+    }
+  }
+
+  useEffect(() => {
+    getTodoList()
+  }, [])
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
         setLoading(false)
@@ -65,7 +113,7 @@ console.log("null")
   }, [])        
 
   const authProviderValue: AuthProviderProps = {
-    logIn, logOut, user, signUp
+    logIn, logOut, user, signUp, todo, addTodoHandler
   };
 
   return <AuthContext.Provider value={authProviderValue}>{children}</AuthContext.Provider>;

@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function Dashboard() {
   return (
-    <div className='flex flex-col items-center justify-center gap-y-10 w-[90%]'>
+    <div className='flex flex-col items-center justify-center gap-y-10 w-full'>
 
       {/* Header  */}
       <div className='w-full flex items-center justify-between'>

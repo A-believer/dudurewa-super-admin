@@ -2,27 +2,28 @@
 import { useForm } from "react-hook-form";
 import { Button } from '@/components/ui/button'
 import React, { useState } from 'react'
-import { loginFormSchema } from "@/lib/schemas/formSchema";
+import { todoFormSchema } from "@/lib/schemas/formSchema";
 import {yupResolver} from "@hookform/resolvers/yup"
 import { useAuth } from "@/lib/context/AuthContext";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface FormData {
-    email: string;
-    password: string
+    title: string;
+    description: string
 }
 
 export default function Form() {
-    const { logIn, user } = useAuth()
-    const router = useRouter()
-    const {register, handleSubmit, reset, formState: {errors}} = useForm<FormData>({
-    resolver: yupResolver(loginFormSchema),
+    const {addTodoHandler} = useAuth()
+    const {register, handleSubmit,reset, formState: {errors}} = useForm<FormData>({
+    resolver: yupResolver(todoFormSchema),
   })
-    const onSubmit = async ({email, password}: FormData) => {
+    const onSubmit = async ({title, description}: FormData) => {
         try {
-            await logIn(email, password);
+            await addTodoHandler(title, description)
+            console.log({ title, description });
             reset()
-            router.push('/admin/dashboard')
+            toast.success("todo added")
         } catch (error: any) {
             console.log({error})
         } 
@@ -32,27 +33,26 @@ export default function Form() {
           <h1 className="text-center text-[28px] leading-8 text-orange font-semibold">Log In to your Super Admin</h1>
           
           <div className="flex flex-col gap-y-2 w-full">
-            <label htmlFor="email" className="text-lg">Your Email</label>
+            <label htmlFor="title" className="text-lg">Title</label>
               <input
-                  type="email"
-                  id="email"
-                  {...register("email")}
+                  type="text"
+                  id="title"
+                  {...register("title")}
                   className="py-4 pl-4 rounded-xl bg-transparent outline-none focus:bg-transparent active:bg-transparent border-4 focus:border-4"/>
               <span className="text-red-600">
-                  {errors.email && errors.email.message}
+                  {errors.title && errors.title.message}
               </span>
           </div>
           <div className="flex flex-col gap-y-2 w-full">
-            <label htmlFor="pasword">Your Password</label>
-              <input
-                  type="password"
-                  id="password"
-                  {...register("password")}
+            <label htmlFor="description">Describe todo</label>
+              <textarea
+                  id="description"
+                  {...register("description")}
                   className="py-4 pl-4 rounded-xl bg-transparent outline-none focus:bg-transparent active:bg-transparent border-4 active:border-4"
-              />
-              <span className="text-red-600">{errors.password && errors.password.message}</span>
+              ></textarea>
+              <span className="text-red-600">{errors.description && errors.description.message}</span>
           </div>
-          <Button variant={'outline'} type="submit" className="text-2xl border-4 border-orange py-5 px-4 w-fit mx-auto rounded-xl hover:bg-orange">Login</Button>
+          <Button variant={'outline'} type="submit" className="text-2xl border-4 border-orange py-5 px-4 w-fit mx-auto rounded-xl hover:bg-orange">Add </Button>
       </form>
   )
 }
