@@ -4,14 +4,14 @@ import { motion, useCycle } from "framer-motion"
 import { Footer, Logo } from './index'
 import Link from 'next/link'
 import NavigationDesktop from './navigationDesktop';
-import { UserAuth } from '@/lib/context/AuthContext'
+import { useAuth } from '@/lib/context/AuthContext'
 import { Button } from './ui/button'
 import { useRouter } from 'next/navigation'
 import { Logout } from 'iconsax-react'
 
 
 export default function NavBarDesktop() {
-    const { user, logOut } = UserAuth()
+    const { user, logOut } = useAuth()
      const router = useRouter()
 
   const handleLogOut = async (e: any) => {

@@ -1,7 +1,8 @@
+"use client"
 import { ThemeProvider } from '@/components/ui/theme-provider'
 import { Footer, NavBar, NavBarDesktop } from '@/components/index'
 import { ModeToggle } from './mode-toggle'
-import { AuthContextProvider } from '@/lib/context/AuthContext';
+import { AuthProvider, useAuth } from '@/lib/context/AuthContext';
 
 export default function Container({
   children,
@@ -9,19 +10,22 @@ export default function Container({
 }: {
     children: React.ReactNode;
   className: string
-}) {
+  }) {
+  const {user} = useAuth()
   return (
-        <AuthContextProvider>
-     
+   
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
       >
-         <main className='relative max-w-[1520px] mx-auto w-full min-h-screen h-full selection:text-orange selection:bg-foreground flex xl:flex-row flex-col '>
+      <main className='relative max-w-[1520px] mx-auto w-full min-h-screen h-full selection:text-orange selection:bg-foreground flex xl:flex-row flex-col '>
+        {user && <>
           <NavBar />
           <NavBarDesktop/>
+        </>}
+          
           <section className={`xl:w-[80%] w-[95%] max-w-full mx-auto overflow-auto  ${className}`}>
                
           {children}
@@ -33,8 +37,7 @@ export default function Container({
         </div>
       </main>
         
-          </ThemeProvider>        
-        </AuthContextProvider>
+          </ThemeProvider>     
 
         
   )

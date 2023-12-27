@@ -60,7 +60,7 @@ export default function Onboarding() {
 }
 
   return (
-    <Container className="py-5 space-y-10 md:h-[70vh] h-[50vh] xl:min-h-[55vh] md:min-h-[80vh] min-h-[75vh] pb-10 w-fit  overflow-scroll no-scrollbar bg-onboardingOne">
+    <Container className="xl:py-10 py-5 space-y-10 h-full pb-10 w-fit  overflow-scroll no-scrollbar bg-onboardingOne">
         {onboardingCardData?.map((item, i) => (
             <Card
                 key={item.id}

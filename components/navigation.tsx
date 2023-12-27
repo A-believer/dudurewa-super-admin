@@ -1,7 +1,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { UserAuth } from "@/lib/context/AuthContext";
+import { useAuth } from "@/lib/context/AuthContext";
 import { Button } from "./ui/button";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -41,7 +41,7 @@ const navMenuItems = [
 
 
 const Navigation = ({ toggle }: {toggle: () => void}) => {
-  const { user, logOut } = UserAuth()
+  const { user, logOut } = useAuth()
   const router = useRouter()
     const routerLink = usePathname()
 
@@ -58,7 +58,7 @@ const Navigation = ({ toggle }: {toggle: () => void}) => {
   }
     
     return(
-  <motion.ul variants={variants} className="absolute top-[108px] left-0 w-full bg-background flex flex-col items-stretch justify-center gap-y-10 text-center border border-foreground min-h-[75vh] rounded-2xl z-40 text-orange py-7 overflow-scroll">
+  <motion.ul variants={variants} className="absolute top-[108px] left-0 w-full bg-background flex flex-col items-stretch justify-center gap-y-10 text-center border border-foreground min-h-[75vh] rounded-2xl z-50 text-orange py-7 overflow-scroll">
     {navMenuItems.map((item) => (
         
       <motion.li

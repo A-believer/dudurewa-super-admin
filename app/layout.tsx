@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Familjen_Grotesk } from 'next/font/google'
 import './globals.css'
+import { AuthProvider } from '@/lib/context/AuthContext'
 
 
 const inter = Familjen_Grotesk({
@@ -20,10 +21,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <AuthProvider>
+      <html lang="en">
       <body className={inter.className}>
           {children}
       </body>
     </html>
+    </AuthProvider>
+    
   )
 }

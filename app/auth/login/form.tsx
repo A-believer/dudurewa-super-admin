@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import React, { useState } from 'react'
 import { loginFormSchema } from "@/lib/schemas/formSchema";
 import {yupResolver} from "@hookform/resolvers/yup"
-import { UserAuth } from "@/lib/context/AuthContext";
+import { useAuth } from "@/lib/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 interface FormData {
@@ -13,7 +13,7 @@ interface FormData {
 }
 
 export default function Form() {
-    const { logIn, user } = UserAuth()
+    const { logIn, user } = useAuth()
     const router = useRouter()
     const {register, handleSubmit, formState: {errors}} = useForm<FormData>({
     resolver: yupResolver(loginFormSchema),

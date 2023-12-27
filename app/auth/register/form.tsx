@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import React from 'react'
 import { signUpformSchema } from "@/lib/schemas/formSchema";
 import {yupResolver} from "@hookform/resolvers/yup"
-import { UserAuth } from "@/lib/context/AuthContext";
+import { useAuth } from "@/lib/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 
@@ -15,7 +15,7 @@ interface FormData {
 }
 
 export default function Form() {
-    const { signUp, user } = UserAuth()
+    const { signUp, user } = useAuth()
     const router = useRouter()
     const {register, handleSubmit, formState: {errors}} = useForm<FormData>({
     resolver: yupResolver(signUpformSchema),
