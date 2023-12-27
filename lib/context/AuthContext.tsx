@@ -1,64 +1,86 @@
+"use client"
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useEffect, useState } from 'react';
 import {
+    createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
   User,
   UserCredential
 } from 'firebase/auth';
-import { auth, db } from "../firebase-config"
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { auth } from "../firebase-config"
 
-interface AuthContextType {
-  user: User | null
-  logIn: (email: string, password: string) => void ;
-    logOut: () => void ;
+interface AuthContextProps {
+    user: User | null;
+    signUp: (email: string, password: string, userName: string) => Promise<void>
+  logIn: (email: string, password: string) => Promise<void> ;
+    logOut: () => Promise<void> ;
 }
 
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-const AuthContext = createContext<AuthContextType | null>(null);
+export const UserAuth = () => {
+ const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}
 
 export const AuthContextProvider = ({ children }: {children: React.ReactNode}) => {
-    const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
 
-  
+    const signUp = async (email: string, password: string, userName: string) => {
+    try {
+       await createUserWithEmailAndPassword(auth, email, password);
+       
+    } catch (error: any) {
+      console.error(error.message)
+    }
+  };
 
   const logIn = async (email: string, password: string) => {
      try {
-       const userCred = await signInWithEmailAndPassword(auth, email, password)
-       setUser(userCred.user)
+        await signInWithEmailAndPassword(auth, email, password)
+         console.log("user")
      } catch (error: any) {
       console.error(error.message)
      }
-    
    }
   const logOut = async () => {
     try {
       await signOut(auth)
-    setUser(null)
     } catch (error: any) {
       console.error(error.message)
     }
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-   setUser(user)
-    })
-
-   return () => {unsubscribe()}
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+        setLoading(false)
+          if (user) {
+          setUser(user)
+console.log("user")
+          } else {
+            setUser(null)
+console.log("null")         
+          }
+      })
+   return () => unsubscribe()
   }, [])        
 
-  const value = {logIn, logOut, user }
+   if (loading) {
+    // If still loading, you can return a loading indicator or null
+    return console.log("loading")  
+  }
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{logIn, logOut, user, signUp }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const UserAuth = () => {
-  return useContext(AuthContext)
-}

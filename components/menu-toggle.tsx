@@ -12,7 +12,7 @@ const Path =( props: any) => (
 );
 
 const MenuToggle = ({ toggle }: {toggle: () => void}) => (
-  <button onClick={toggle} className="bg-[#fde21f] rounded-full w-[50px] h-[50px] flex items-center justify-center border border-orange">
+  <button onClick={toggle} className="bg-[#fde21f] rounded-full w-[50px] h-[50px] flex items-center justify-center border-2 border-orange">
     <svg width="24" height="24" viewBox="0 0 23 23">
       <Path
         variants={{

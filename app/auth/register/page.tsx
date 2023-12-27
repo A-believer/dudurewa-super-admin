@@ -1,7 +1,7 @@
 import React from 'react'
 import Form from './form'
 
-export default async function Login() {
+export default function Register() {
   return (
     <Form/>
   )

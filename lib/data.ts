@@ -1,4 +1,4 @@
-import { shawarmaOnboarding1, shawarmaOnboarding2, shawarmaOnboarding3, shawarmaOnboarding4, shawarmaOnboarding5 } from "@/public/pngs";
+import { shawarmaOnboarding1, shawarmaOnboarding2, shawarmaOnboarding3, shawarmaOnboarding4, shawarmaOnboarding5, shawarmaOnboarding6 } from "@/public/pngs";
 
 
 export interface OnboardingProp {
@@ -45,5 +45,11 @@ export const onboardingCardData: OnboardingProp[] = [
     info: "Old things are passed away",
     description: "Writing is drastically reduced or eradicated, calculations are done for each business day and no more calculating at night.",
     imageSrc: shawarmaOnboarding5
+  },
+   {id: 6,
+    tag: "#006",
+    info: "You have light and dark mode",
+    description: "Icon at the lower right corner of your screen can help you switch between modes.",
+    imageSrc: shawarmaOnboarding6
   },
 ]

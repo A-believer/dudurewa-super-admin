@@ -39,7 +39,7 @@ export default function Onboarding() {
              initial="offscreen"
       whileInView="onscreen"
       viewport={{ once: true, amount: 0.8 }}
-      className="relative overflow-hidden xl:w-[500px] w-full h-[450px] mx-auto my-5 rounded-xl"
+      className="relative overflow-hidden xl:w-[500px] w-full h-[450px] mx-auto my-5 rounded-xl z-10"
             key={key}>
       
           <Image src={src} alt="image" className="w-full h-full object-cover object-center z-10" placeholder="blur"/>
@@ -60,7 +60,7 @@ export default function Onboarding() {
 }
 
   return (
-    <Container className="py-5 space-y-10 md:h-[70vh] h-[50vh] w-f  overflow-scroll no-scrollbar bg-onboardingOne">
+    <Container className="py-5 space-y-10 md:h-[70vh] h-[50vh] xl:min-h-[55vh] md:min-h-[80vh] min-h-[75vh] pb-10 w-fit  overflow-scroll no-scrollbar bg-onboardingOne">
         {onboardingCardData?.map((item, i) => (
             <Card
                 key={item.id}
@@ -72,7 +72,13 @@ export default function Onboarding() {
       ))}
 
       <p className="w-full text-center flex items-center justify-center gap-x-4 text-2xl underline underline-offset-4"><span>Ready for the fun? Let`s go!😊</span></p>
-      <Link href={`/auth/login`} className='text-2xl border-4 border-orange py-3 px-4 w-fit mx-auto rounded-2xl flex items-center gap-x-3'>Click here to login</Link>
+
+      <div className="flex flex-col gap-y-5 items-center justify-center w-full">
+        <Link href={`/auth/login`} className='text-2xl border-4 border-orange py-3 px-4 w-fit mx-auto rounded-2xl flex items-center gap-x-3'>Click here to Login</Link>
+        <p className="flex gap-x-4 items-center justify-center text-2xl">OR</p>
+        <Link href={`/auth/register`} className='text-2xl border-4 border-orange py-3 px-4 w-fit mx-auto rounded-2xl flex items-center gap-x-3'>Click here to Register</Link>
+      </div>
+      
     </Container>
   );
 }
