@@ -41,7 +41,7 @@ export default function TodoList() {
 
   console.log(todo)
   return (
-    <div className='w-full flex flex-col gap-y-5 py-6'>
+    <div className='w-full flex flex-col gap-y-5 py-6 h-[70vh]'>
       <div className='w-[95%] mx-auto flex items-center justify-between'>
         <p className='text-3xl'>My Todo List</p>
         <Button
