@@ -16,29 +16,33 @@ interface AuthContextProps {
   children: ReactNode;
 }
 
-interface AuthProviderProps {
-   user: User | null;
-    signUp: (email: string, password: string, userName: string) => Promise<void>
-  logIn: (email: string, password: string) => Promise<void> ;
-  logOut: () => Promise<void>;
-  todo: string[];
-  addTodoHandler: (title:string, description: string) => Promise<void>
-}
-
 interface TodoProps {
   id: string
   title: string
   status: boolean
   description: string
 }
+interface AuthProviderProps {
+   user: User | null;
+    signUp: (email: string, password: string, userName: string) => Promise<void>
+  logIn: (email: string, password: string) => Promise<void> ;
+  logOut: () => Promise<void>;
+  addTodoHandler: (title: string, description: string) => Promise<void>
+  loading: boolean
+  todo: TodoProps[],
+  loadingTodo: boolean
+  getTodoList: () => Promise<void>
+}
 const AuthContext = createContext<AuthProviderProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
    const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
+  const [todo, setTodo] = useState<TodoProps[]>([])
   const [loadingTodo, setLoadingTodo] = useState<boolean>(true)
-  const [todo, setTodo] =useState<string[]>([])
-      const todoRef = collection(db, "Todos")
+
+  
+
     const signUp = async (email: string, password: string, userName: string) => {
     try {
        await createUserWithEmailAndPassword(auth, email, password);
@@ -51,7 +55,7 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
   const logIn = async (email: string, password: string) => {
      try {
         await signInWithEmailAndPassword(auth, email, password)
-         console.log("logged out")
+         console.log("logged in!")
      } catch (error: any) {
       console.error(error.message)
      }
@@ -59,6 +63,7 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
   const logOut = async () => {
     try {
       await signOut(auth)
+         console.log("logged out")
     } catch (error: any) {
       console.error(error.message)
     }
@@ -76,19 +81,19 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
     }
   }
 
-  const getTodoList = async () => {
+   const getTodoList = async () => {
+      const todoRef = collection(db, "Todos")
+
     try { 
-      await getDocs(todoRef)
-        .then((data: any) => {
-          const allTodo = data.docs.map((doc: any) => ({
-            ...doc.data(),
-            id: doc.id
-          }))
-          setTodo(allTodo)
-        })
-          setLoadingTodo(false)
+      const getTodo = await getDocs(todoRef)
+      const allTodo: any[] = []
+      getTodo.docs.map((doc) => (allTodo.push({
+        id: doc.id,
+        ...doc.data()
+      })))
       
-      console.log(todo)
+      setTodo(allTodo)
+      setLoadingTodo(false)
     } catch (error: any) {
       toast.error('failed to fetch todos!!')
     }
@@ -99,21 +104,15 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-        setLoading(false)
-          if (user) {
-          setUser(user)
-console.log("user")
-          } else {
-            setUser(null)
-console.log("null")         
-          }
+    const unsubscribe = onAuthStateChanged(auth, (user) => {  
+      setUser(user)
+      setLoading(false)
       })
    return () => unsubscribe()
   }, [])        
 
   const authProviderValue: AuthProviderProps = {
-    logIn, logOut, user, signUp, todo, addTodoHandler
+    logIn, logOut, user, signUp, addTodoHandler, loading, todo, loadingTodo, getTodoList
   };
 
   return <AuthContext.Provider value={authProviderValue}>{children}</AuthContext.Provider>;

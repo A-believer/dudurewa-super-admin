@@ -6,10 +6,9 @@ import React from 'react'
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
       <ProtectedRoute>
-    <Container className=''>
-        {children}
+    <Container className='min-h-[75vh]'>
+      {children}
     </Container>
-      </ProtectedRoute>
-    
+    </ProtectedRoute>
   )
 }

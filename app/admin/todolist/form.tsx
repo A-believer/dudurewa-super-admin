@@ -14,7 +14,7 @@ interface FormData {
 }
 
 export default function Form() {
-    const {addTodoHandler} = useAuth()
+    const {addTodoHandler, getTodoList} = useAuth()
     const {register, handleSubmit,reset, formState: {errors}} = useForm<FormData>({
     resolver: yupResolver(todoFormSchema),
   })
@@ -23,6 +23,7 @@ export default function Form() {
             await addTodoHandler(title, description)
             console.log({ title, description });
             reset()
+            getTodoList()
             toast.success("todo added")
         } catch (error: any) {
             console.log({error})
